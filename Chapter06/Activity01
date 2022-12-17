@@ -1,0 +1,85 @@
+#include <iostream>
+#include <string.h>
+
+using namespace std;
+
+class DrinkBox
+{
+public:
+  // 생성자
+  DrinkBox() {};
+  DrinkBox(char *str, int n1, int n2)
+  {
+    name = new char[strlen(str) + 1];
+    strcpy(name, str);
+    price = n1;
+    count = n2;
+  }
+
+  // 합계 금액 계산
+  int GetTotalPrice()
+  {
+    return count * price;
+  }
+  
+  // 타이틀 표시
+  void PrintTitle()
+  {
+    cout << "상품명\t\t단가\t수량\t금액" << endl;
+  }
+  
+  // 상품 데이터 표시
+  void PrintData()
+  {
+    cout << name << "\t\t" << price << "\t" << count << "\t" << GetTotalPrice() << endl;
+  }
+
+  char *name;  // 상품명
+  int price;  // 단가
+  int count;  // 수량
+};
+
+class Alcoholbox : public DrinkBox
+{
+public:
+  Alcoholbox(char *str, int n1, int n2, float f)
+  {
+    // 생성자
+    name = new char[strlen(str) + 1];
+    strcpy(name, str);
+    price = n1;
+    count = n2;
+    alcper = f;
+  }
+  void PrintTitle()
+  {
+    // 재정의
+    cout << "상품명(도수[%])단가\t수량\t금액 " << endl;
+  }
+  
+  void PrintData()
+  {
+    cout << name << "(" << alcper << ") \t" << price << "\t" << count << "\t" << GetTotalPrice() << endl;
+  }
+  
+  private:
+    float alcper;  // 알콜 도수
+};
+
+
+int main()
+{
+  DrinkBox coffee("커피", 2000, 3);
+  DrinkBox oolongtea("녹차", 1500, 2);
+  Alcoholbox wine("와인", 3000, 2, 15.0);
+  coffee.PrintTitle();
+  coffee.PrintData();
+  oolongtea.PrintData();
+  wine.PrintTitle();
+  wine.PrintData();
+
+  int sum = coffee.GetTotalPrice() + oolongtea.GetTotalPrice() + wine.GetTotalPrice();
+  cout << "\n*** 합계 금액 " << sum << "원 ***" << endl;
+
+  return 0;
+}
